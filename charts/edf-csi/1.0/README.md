@@ -4,14 +4,15 @@ There are some variables are mendatory to set to deploy this helm chart.
 Adding [[this repo link](https://github.com/p-grad/rancher-charts.git)](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
 
 This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed). Just use:  
-> git clone  https://github.com/p-grad/rancher-charts.git  
-> cd rancher-charts/charts/edf-csi/1.0  
-  
+```
+git clone  https://github.com/p-grad/rancher-charts.git  
+cd rancher-charts/charts/edf-csi/1.0  
+```  
 Modify the *values.yaml* file  
 And run helm command:  
-
-> helm install edf-csi --namespace edf-csi --create-namespace .
-
+```
+helm install edf-csi --namespace edf-csi --create-namespace .
+```
 
 ## Global Settings  
 1. **Cluster Name  (required) *clusterName***  
