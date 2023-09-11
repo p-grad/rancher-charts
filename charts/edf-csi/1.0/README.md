@@ -6,7 +6,9 @@ Adding [[this repo link](https://github.com/p-grad/rancher-charts.git)](https://
 This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed). Just use:
 ``  
 git clone  https://github.com/p-grad/rancher-charts.git  
+
 cd rancher-charts/charts/edf-csi/1.0  
+
 ``
 Modify the *values.yaml* file  
 And run helm command:  
