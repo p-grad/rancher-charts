@@ -1,7 +1,7 @@
 # Ezmeral Data Fabric Helm
 There are some variables are mendatory to set to deploy this helm chart.
 
-Adding [[this repo link](https://github.com/p-grad/rancher-charts.git)](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
+Adding [(https://github.com/p-grad/rancher-charts.git)](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
 
 This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed). Just use:  
 ```
