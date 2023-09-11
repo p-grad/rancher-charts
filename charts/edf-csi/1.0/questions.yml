@@ -1,0 +1,83 @@
+rancher_min_version: 2.7.5
+rancher_max_version: 2.7.5
+questions:
+- variable: airgap.enabled
+  default: false
+  description: ""
+  label: Use airgap
+  type: boolean
+  group: "Global Settings"
+  show_subquestion_if: true
+  subquestions:
+  - variable: airgap.registry
+    default: ""
+    description: "Url for airgap registry, example: erm-airgap.ez.local:5000/airgap-ecp56"
+    type: string
+    label: Image Registry
+    required: true
+- variable: clusterName
+  required: true
+  default: ""
+  description: "Local Cluster Name - Data Fabric mount point prefix, example: rancher-prod"
+  type: string
+  label: Cluster Name
+  group: "Global Settings"
+# Data Fabric settings
+- variable: edf.ticket
+  required: true
+  default: ""
+  description: "EDF Ticket, created on Data Fabric with  maprlogin generateticket -type servicewithimpersonation -user mapr -cluster <ClusterName> -duration <Days>:<Hours>:<Min> -out OutFile"
+  type: string
+  label: The Ticket
+  group: "Data Fabric settings"
+- variable: edf.clusterName
+  required: true
+  default: ""
+  description: "EDF Cluster Name"
+  type: string
+  label: EDF ClusterName
+  group: "Data Fabric settings"
+- variable: edf.cldbHosts
+  required: true
+  default: ""
+  description: "EDF CLDB Hosts"
+  type: string
+  label: EDF CLDB Hosts
+  group: "Data Fabric settings"
+- variable: edf.restServers
+  required: true
+  default: ""
+  description: "EDF Rest Servers"
+  type: string
+  label: EDF Rest Servers
+  group: "Data Fabric settings"
+- variable: edf.defaultStorageClass
+  required: true
+  default: true
+  description: "Set Storage Class as default"
+  type: boolean
+  label: Set StorageClass as default
+  group: "Data Fabric settings"
+- variable: edf.PasswordAuthentication
+  required: true
+  default: false
+  description: "EDF Rest Api Authentication type"
+  type: boolean
+  label: Password authentication
+  group: "Data Fabric settings"
+  show_subquestion_if: true
+  subquestions:
+  - variable: edf.admin
+    required: true
+    default: "mapr"
+    description: "EDF Admin User Name - usually: mapr"
+    type: string
+    label: EDF Admin
+    group: "Data Fabric settings"
+  - variable: edf.password
+    required: true
+    default: ""
+    description: "EDF Admin Password"
+    type: string
+    label: EDF Password
+    group: "Data Fabric settings"
