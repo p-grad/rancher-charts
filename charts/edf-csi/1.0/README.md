@@ -9,7 +9,7 @@ git clone  https://github.com/p-grad/rancher-charts.git
 
 cd rancher-charts/charts/edf-csi/1.0  
 
-``
+``  
 Modify the *values.yaml* file  
 And run helm command:  
 ``
