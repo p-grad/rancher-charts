@@ -4,15 +4,25 @@
 
 airgap:
   enabled: false
+# Ser the registry variable if airgap.enabled set to "true"
   registry: ""
+# clusterName - mendatory variable - the name of the cluster - used as the prefix for EDF provisioned volumes mountpoints 
 clusterName: ""
 
 edf:
+# edf.ticket - mendatory variable - see README.md
   ticket: ""
-  admin: "mapr"
-  password: ""
-  clusterName: ""
-  cldbHosts: ""
-  restServers: ""
+# edf.PasswordAuthentication - mendatory, default "false" - the authentication method, by default ticket authentication
   PasswordAuthentication: false
+# edf.admin - set this variable only if edf.PasswordAuthentication is set to "true" - the name of the EDF admin account - usually "mapr"
+  admin: "mapr"
+# edf.password - set this variable only if edf.PasswordAuthentication is set to "true" - password of the EDF admin (mapr)
+  password: ""
+# edf.clusterName - mendatory variable - the name of the Ezmeral Data Fabric cluster
+  clusterName: ""
+# edf.cldbHosts - mendatory variable - the list of EDF CLDB HOSTS !!! space separaterd list !!!
+  cldbHosts: ""
+# edf.restServers - mendatory variable - the list of EDF rest Servers !!! space separaterd list !!!
+  restServers: ""
+# edf.defaultStorageClass - set to true if you want the created Storage Class be the default SC
   defaultStorageClass: true
