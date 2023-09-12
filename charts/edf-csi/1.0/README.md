@@ -1,6 +1,6 @@
 # Ezmeral Data Fabric Helm  
   
-### Prerequisite: Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)**  
+### Prerequisite: Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
 ---
 There are some variables are mendatory to set to deploy this helm chart.
 
