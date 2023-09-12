@@ -1,4 +1,5 @@
 # Ezmeral Data Fabric Helm
+Prerequisite: Installed and working **Ezmeral Data Fabric**  
 There are some variables are mendatory to set to deploy this helm chart.
 
 Adding [https://github.com/p-grad/rancher-charts.git](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
