@@ -1,4 +1,4 @@
-# My Rancher Helm Charts
+# Rancher Helm Charts
 Add this repository (https://github.com/p-grad/rancher-charts.git) to Rancher - You will see following  chart available from the Rancher GUI.   
 
 ---
