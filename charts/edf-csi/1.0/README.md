@@ -1,6 +1,7 @@
-# Ezmeral Data Fabric Helm  
+# Ezmeral Data Fabric Helm chart  
+Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/) CSI driver and StoragaClass for Kubernetes
   
-# Prerequisite:  
+# Prerequisites:  
 -  Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
 -  Token
 -  CLDB Hosts list
