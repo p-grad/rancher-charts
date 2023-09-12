@@ -1,5 +1,6 @@
 # Ezmeral Data Fabric Helm  
-> ### Prerequisite: Installed and working **Ezmeral Data Fabric**  
+  
+### Prerequisite: Installed and working **Ezmeral Data Fabric**  
 ---
 There are some variables are mendatory to set to deploy this helm chart.
 
