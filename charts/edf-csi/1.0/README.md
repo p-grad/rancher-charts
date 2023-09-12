@@ -1,6 +1,11 @@
 # Ezmeral Data Fabric Helm  
   
-### Prerequisite: Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
+# Prerequisite:  
+- [] Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
+- [] Token
+- [] CLDB Hosts list
+- [] Rest Servers list
+
 ---
   
 Adding [https://github.com/p-grad/rancher-charts.git](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
