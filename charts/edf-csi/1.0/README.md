@@ -1,10 +1,10 @@
 # Ezmeral Data Fabric Helm  
   
 # Prerequisite:  
-- [] Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
-- [] Token
-- [] CLDB Hosts list
-- [] Rest Servers list
+-  Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
+-  Token
+-  CLDB Hosts list
+-  Rest Servers list
 
 ---
   
