@@ -1,0 +1,25 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+{{- if .Values.edf.defaultStorageClass}}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+{{- end }}
+  name: {{ regexReplaceAll "\\." .Values.edf.clusterName "-" }}
+parameters:
+  cldbHosts: {{ .Values.edf.cldbHosts }}
+  cluster: {{ .Values.edf.clusterName }}
+  csi.storage.k8s.io/provisioner-secret-name: hpe-user-secret-{{ regexReplaceAll "\\." .Values.edf.clusterName "-" }}
+  csi.storage.k8s.io/provisioner-secret-namespace: {{ .Release.Namespace }}
+  csiNodePublishSecretName: hpe-ticket-secret-{{ regexReplaceAll "\\." .Values.edf.clusterName "-" }}
+  csiNodePublishSecretNamespace: {{ .Release.Namespace }}
+  mountPrefix: /exthcp-{{ .Values.clusterName }}
+  namePrefix: {{ .Values.clusterName }}
+  platinum: {{ .Values.edf.platinum }}
+  restServers: {{ .Values.edf.restServers }}
+  securityType: secure
+provisioner: com.mapr.csi-kdf
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+
