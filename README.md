@@ -4,4 +4,4 @@ Add this repository (https://github.com/p-grad/rancher-charts.git) to Rancher - 
 ---
   
 
-[Ezmeral Data Fabric CSI](charts/edf-csi/1.0/)
+[Ezmeral Data Fabric CSI](charts/edf-csi/1.1/)
