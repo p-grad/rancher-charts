@@ -16,7 +16,7 @@ parameters:
   csiNodePublishSecretNamespace: {{ .Release.Namespace }}
   mountPrefix: /exthcp-{{ .Values.clusterName }}
   namePrefix: {{ .Values.clusterName }}
-  platinum: {{ .Values.edf.platinum }}
+  platinum: {{ quote .Values.edf.platinum }}
   restServers: {{ .Values.edf.restServers }}
   securityType: secure
 provisioner: com.mapr.csi-kdf
