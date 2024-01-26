@@ -1,5 +1,5 @@
 # Ezmeral Data Fabric Helm chart  
-Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/75/) [CSI driver and](https://docs.ezmeral.hpe.com/datafabric-customer-managed/75/CSIdriver/csi_installation.html) StoragaClass for Kubernetes
+Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/75/) [CSI driver](https://docs.ezmeral.hpe.com/datafabric-customer-managed/75/CSIdriver/csi_installation.html) and StoragaClass for Kubernetes
   
 # Prerequisites:  
 -  Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
