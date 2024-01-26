@@ -55,7 +55,10 @@ Example:
 ```
 edf7-1.ez.local:7222 edf7-2.ez.local:7222 edf7-3.ez.local:7222  
 ```
-  
+The list of the CLDB hosts you can gather on the Data Fabric cluster with command: 
+```
+maprcli node listcldbs
+```
 4. **EDF Rest Servers *edf.restServers***  
 List of the EDF Rest Servers with ports, **space separated**.  
 Example:
