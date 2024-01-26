@@ -1,5 +1,5 @@
 # Ezmeral Data Fabric Helm chart  
-Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/) CSI driver and StoragaClass for Kubernetes
+Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/75/) [CSI driver and](https://docs.ezmeral.hpe.com/datafabric-customer-managed/75/CSIdriver/csi_installation.html) StoragaClass for Kubernetes
   
 # Prerequisites:  
 -  Installed and working **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster.  
@@ -11,7 +11,7 @@ Deploy [Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/) CSI dr
   
 Adding [https://github.com/p-grad/rancher-charts.git](https://github.com/p-grad/rancher-charts.git) as Rancher repo, you will have the EDF CSI icon in the Rancher application list.  
 
-This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed), with acccess to **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/74/)** cluster. Just use:  
+This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed), with acccess to **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/75/)** cluster. Just use:  
 ```
 git clone  https://github.com/p-grad/rancher-charts.git  
 cd rancher-charts/charts/edf-csi/1.0  
