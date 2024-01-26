@@ -14,7 +14,7 @@ Adding [https://github.com/p-grad/rancher-charts.git](https://github.com/p-grad/
 This chart can be used to deploy EDF CSI on any Kubernetes cluster (not only Rancher managed), with acccess to **[Ezmeral Data Fabric](https://docs.ezmeral.hpe.com/datafabric/75/)** cluster. Just use:  
 ```
 git clone  https://github.com/p-grad/rancher-charts.git  
-cd rancher-charts/charts/edf-csi/1.0  
+cd rancher-charts/charts/edf-csi/1.1  
 ```  
 Modify the *values.yaml* file  
 And run helm command:  
