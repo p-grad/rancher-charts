@@ -65,7 +65,10 @@ Example:
 ```
 edf7-1.ez.local:8443 edf7-2.ez.local:8443 edf7-3.ez.local:8443  
 ```
-  
+The list of the apiservers hosts you can gather on the Data Fabric cluster with command: 
+```
+maprcli node list -columns svc | grep apiserver
+```  
 5. **Password Authentication *edf.PasswordAuthentication***  
 true o false (default false). Choosing user/password authentication method to Rest Server  
 If "false" - ticket authentication will be used  
