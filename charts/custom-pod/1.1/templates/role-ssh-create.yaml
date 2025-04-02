@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+  name: {{ .Release.Name }}-ssh-secret-creator
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+  name: {{ .Release.Name }}-ssh-secret-creator-binding
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-ssh-job-sa
+roleRef:
+  kind: Role
+  name: {{ .Release.Name }}-ssh-secret-creator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+  name: {{ .Release.Name }}-ssh-job-sa
