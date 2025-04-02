@@ -31,6 +31,7 @@ questions:
   label: "Pod Storage"
   default: true
   type: boolean
+  group: "Storage"
   show_subquestion_if: true
   subquestions:
   - variable: storage.storageSize
