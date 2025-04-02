@@ -24,12 +24,12 @@ questions:
 - variable: image.repository
   label: "Image"
   group: "Image"
-  default: "iprdkir.ai.neuca.pl/library/ub22-cuda"
+  default: "aiprdkir.ai.neuca.pl/library/cuda"
   required: true
   type: string
 - variable: image.tag
   group: "Image"
-  default: "v1"
+  default: "12-2-cudnn-8.9.7"
   label: "Image tag"
   required: true
   type: string
