@@ -131,7 +131,6 @@ volumeMounts: []
 tolerations: []
 storage:
   enabled: true
-  pvcName: pod-storage
   storageSize: 10Gi
   storageClassName: ""  # Leave empty to use the default storage class
   mountPath: /data
