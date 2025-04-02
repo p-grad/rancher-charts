@@ -16,7 +16,9 @@ questions:
     group: "Global Settings"
     label: "Node Selector"
     description: "Enter nodeSelector key-value pairs (e.g., nvidia.com/gpu.present=true, nvidia.com/gpu.product=NVIDIA-H100-NVL)"
-    default: "nvidia.com/gpu.present=true,nvidia.com/gpu.product=NVIDIA-H100-NVL"
+    default:
+      nvidia.com/gpu.present: "true"
+      nvidia.com/gpu.product: "NVIDIA-H100-NVL"
     type: "map"
     required: true
 - variable: image.repository
