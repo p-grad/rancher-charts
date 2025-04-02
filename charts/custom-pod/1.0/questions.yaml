@@ -12,7 +12,7 @@ questions:
   type: boolean
   show_subquestion_if: true
   subquestions:
-  - variable: nodeSelector
+  - variable: global.nodeSelector
     group: "Global Settings"
     label: "Node Selector"
     description: "Enter nodeSelector key-value pairs (e.g., nvidia.com/gpu.present=true, nvidia.com/gpu.product=NVIDIA-H100-NVL)"
