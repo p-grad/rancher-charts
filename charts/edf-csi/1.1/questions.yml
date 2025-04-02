@@ -1,5 +1,5 @@
 rancher_min_version: 2.7.5
-rancher_max_version: 2.7.5
+rancher_max_version: 2.10.10
 questions:
 - variable: airgap.enabled
   default: false
