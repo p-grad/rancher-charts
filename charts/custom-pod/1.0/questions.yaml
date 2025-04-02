@@ -15,7 +15,7 @@ questions:
   - variable: global.nodeSelector
     group: "Global Settings"
     label: "Node Selector"
-    description: "Enter nodeSelector key-value pairs (e.g., nvidia.com/gpu.present=true, nvidia.com/gpu.product=NVIDIA-H100-NVL)"
+    description: "Available values for nvidia.com/gpu.product are: NVIDIA-H100-NVL, NVIDIA-L40S"
     default:
       nvidia.com/gpu.present: "true"
       nvidia.com/gpu.product: "NVIDIA-H100-NVL"
