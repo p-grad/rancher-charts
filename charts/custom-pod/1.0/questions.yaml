@@ -5,6 +5,20 @@ questions:
   group: "Global Settings"
   default: "aiprdkir.ai.neuca.pl"
   type: string
+- variable: global.nodeSelectorEnabled
+  label: "Node Selector"
+  group: "Global Settings"
+  default: true
+  type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: nodeSelector
+    group: "Global Settings"
+    label: "Node Selector"
+    description: "Enter nodeSelector key-value pairs (e.g., nvidia.com/gpu.present=true, nvidia.com/gpu.product=NVIDIA-H100-NVL)"
+    default: "nvidia.com/gpu.present=true,nvidia.com/gpu.product=NVIDIA-H100-NVL"
+    type: "string"
+    required: true
 - variable: image.repository
   label: "Image"
   group: "Image"
