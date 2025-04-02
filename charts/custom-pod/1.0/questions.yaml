@@ -1,0 +1,50 @@
+rancher_min_version: 2.7.5
+questions:
+- variable: global.registry
+  label: "Registry"
+  group: "Global Settings"
+  default: "aiprdkir.ai.neuca.pl"
+  type: string
+- variable: image.repository
+  label: "Image"
+  group: "Image"
+  default: "iprdkir.ai.neuca.pl/library/ub22-cuda"
+  required: true
+  type: string
+- variable: image.tag
+  group: "Image"
+  default: "v1"
+  label: "Image tag"
+  required: true
+  type: string
+- variable: startupScript
+  label: "Startup Script"
+  group: "Startu Script"
+  type: "multiline"
+  default: |
+    mkdir -p /root/.ssh
+    chmod 700 /root/.ssh
+    mkdir /var/run/sshd # bug in 22.04
+    /usr/sbin/sshd -De
+  required: true
+- variable: storage.enabled
+  label: "Pod Storage"
+  default: true
+  type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: storage.storageSize
+    label: "Storage Size"
+    default: "10Gi"
+    type: string
+    required: true
+  - variable: storage.mountPath
+    default: "/data"
+    label: "Mount Point"
+    type: string
+    required: true
+  - variable: storage.storageClassName
+    label: "Storage Class Name"
+    default: ""
+    type: string
+    required: false
