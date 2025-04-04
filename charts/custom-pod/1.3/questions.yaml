@@ -74,19 +74,13 @@ questions:
     - "ReadWriteOnce"
     required: true
 
-  - variable: "storage.additionalStorage.enabled"
-    label: "Enable Additional Storage"
+  - variable: "storage.additionalStorage.volumes[0].enabled"
+    label: "Enable Additional Storage - PVC"
     description: "Enable to add extra storage volumes."
     type: "boolean"
     default: false
     show_subquestion_if: true
     subquestions:
-      - variable: "storage.additionalStorage.volumes[0].name"
-        type: "string"
-        label: "Volume Name"
-        description: "Unique name for this volume."
-        required: true
-
       - variable: "storage.additionalStorage.volumes[0].type"
         type: "enum"
         label: "Volume Type"
@@ -98,23 +92,18 @@ questions:
           - "persistentVolumeClaim"
           - "emptyDir"
 
-        show_subquestions_if: 'storage.additionalStorage.volumes[0].type == "configMap"'
-        subquestions:
-  
-          - variable: "storage.additionalStorage.volumes[0].configMap.name"
-            type: "string"
-            label: "ConfigMap Name"
-            description: "Enter the name of the ConfigMap."
-            show_if: 'storage.additionalStorage.volumes[0].type == "configMap"'
+      - variable: "storage.additionalStorage.volumes[0].name"
+        type: "string"
+        label: "Volume Name"
+        description: "Unique name for this volume."
+        required: true
 
-        show_subquestions_if: 'storage.additionalStorage.volumes[0].type == "secret"'
-        subquestions:
-          - variable: "storage.additionalStorage.volumes[0].secret.secretName"
-            type: "string"
-            label: "Secret Name"
-            description: "Enter the name of the Secret."
-            show_if: "storage.additionalStorage.volumes[0].type=secret"
-  
+      - variable: "storage.additionalStorage.volumes[0].objectName"
+        type: "string"
+        label: "The name of the object"
+        description: "Unique name for this volume."
+        required: true
+
       - variable: "storage.additionalStorage.volumes[0].mountPath"
         type: "string"
         label: "Mount Path"
@@ -126,6 +115,22 @@ questions:
         label: "Read-Only"
         description: "Mount volume as read-only."
         default: false
+
+  
+#          - variable: "storage.additionalStorage.volumes[0].configMap.name"
+#            type: "string"
+#            label: "ConfigMap Name"
+#            description: "Enter the name of the ConfigMap."
+#            show_if: 'storage.additionalStorage.volumes[0].type == "configMap"'
+#
+#        show_subquestions_if: 'storage.additionalStorage.volumes[0].type == "secret"'
+#        subquestions:
+#          - variable: "storage.additionalStorage.volumes[0].secret.secretName"
+#            type: "string"
+#            label: "Secret Name"
+#            description: "Enter the name of the Secret."
+#            show_if: "storage.additionalStorage.volumes[0].type=secret"
+  
 
 
 #
