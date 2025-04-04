@@ -75,11 +75,11 @@ questions:
     required: true
 
   - variable: "storage.additionalStorage.volumes[0].enabled"
-    label: "Enable Additional Storage - PVC"
+    label: "Enable Additional Storage"
     description: "Enable to add extra storage volumes."
     type: "boolean"
     default: false
-    show_subquestion_if: true
+    show_if: "storage.additionalStorage.volumes[0].enabled == true"
     subquestions:
       - variable: "storage.additionalStorage.volumes[0].type"
         type: "enum"
