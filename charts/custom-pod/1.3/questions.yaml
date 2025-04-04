@@ -74,8 +74,7 @@ questions:
     - "ReadWriteOnce"
     required: true
 
-#- variable: "storage.additionalStorage.volumes[0].enabled"
-- variable: "storage.additionalStorage.enabled"
+- variable: "storage.additionalStorage.enabled0"
   label: "Enable Additional Storage"
   description: "Enable to add extra storage volumes."
   type: "boolean"
@@ -118,36 +117,46 @@ questions:
     description: "Mount volume as read-only."
     default: false
 
-
-#          - variable: "storage.additionalStorage.volumes[0].configMap.name"
-#            type: "string"
-#            label: "ConfigMap Name"
-#            description: "Enter the name of the ConfigMap."
-#            show_if: 'storage.additionalStorage.volumes[0].type == "configMap"'
-#
-#        show_subquestions_if: 'storage.additionalStorage.volumes[0].type == "secret"'
-#        subquestions:
-#          - variable: "storage.additionalStorage.volumes[0].secret.secretName"
-#            type: "string"
-#            label: "Secret Name"
-#            description: "Enter the name of the Secret."
-#            show_if: "storage.additionalStorage.volumes[0].type=secret"
-
-
-
-#
-#      - variable: "storage.additionalStorage.volumes[0].persistentVolumeClaim.claimName"
-#        type: "string"
-#        label: "PVC Name"
-#        description: "Enter the name of the Persistent Volume Claim."
-#        show_if: "storage.additionalStorage.volumes[0].type=persistentVolumeClaim"
-#
-#      - variable: "storage.additionalStorage.volumes[0].emptyDir.medium"
-#        type: "string"
-#        label: "EmptyDir Medium"
-#        description: "Specify medium for EmptyDir (leave blank for default, use 'Memory' for RAM-based storage)."
-#        show_if: "storage.additionalStorage.volumes[0].type=emptyDir"
-#
-#      ## Now, add volumeMounts inside the same array entry
-#
-#
+  - variable: "storage.additionalStorage.enabled1"
+    label: "Enable Additional Storage"
+    description: "Enable to add extra storage volumes."
+    type: "boolean"
+    group: "Additional Storage"
+    default: false
+    show_subquestion_if: true
+    subquestions:
+    - variable: "storage.additionalStorage.volumes[1].type"
+      type: "enum"
+      label: "Volume Type"
+      description: "Select the type of storage volume."
+      required: true
+      options:
+        - "configMap"
+        - "secret"
+        - "persistentVolumeClaim"
+        - "emptyDir"
+  
+    - variable: "storage.additionalStorage.volumes[1].name"
+      type: "string"
+      label: "Volume Name"
+      description: "Unique name for this volume."
+      required: true
+  
+    - variable: "storage.additionalStorage.volumes[1].objectName"
+      type: "string"
+      label: "The name of the object"
+      description: "Unique name for this volume."
+      required: true
+  
+    - variable: "storage.additionalStorage.volumes[1].mountPath"
+      type: "string"
+      label: "Mount Path"
+      description: "Path inside the container where the volume should be mounted."
+      required: true
+  
+    - variable: "storage.additionalStorage.volumes[1].readOnly"
+      type: "boolean"
+      label: "Read-Only"
+      description: "Mount volume as read-only."
+      default: false
+  
