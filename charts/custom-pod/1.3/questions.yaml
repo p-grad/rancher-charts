@@ -2,26 +2,26 @@ rancher_min_version: 2.7.5
 questions:
 - variable: "storage.additionalStorage.enabled"
   label: "Enable Additional Storage"
+  description: "Enable to add extra storage volumes."
   type: boolean
   default: false
   show_subquestion_if: true
-  subquestions:
-  - variable: "storage.additionalStorage.volumes"
-    label: "Additional Volumes"
-    description: "Configure additional storage volumes"
-    type: array
-    items:
-      - type: object
-        properties:
-          - variable: "storage.additionalStorage.volumes[$index].type"
-            label: "Volume Type"
-            type: enum
-            options:
-              - secret
-              - configMap
-              - persistentVolumeClaim
-            required: true
-          - variable: "storage.additionalStorage.volumes[$index].name"
-            label: "Volume Name"
-            type: string
-            required: true
+
+- variable: "storage.additionalStorage.volumes"
+  label: "Additional Volumes"
+  description: "Configure additional storage volumes."
+  type: array
+  show_if: "storage.additionalStorage.enabled=true"
+  min_items: 1
+  items:
+    - type: object
+      properties:
+        - variable: "storage.additionalStorage.volumes[$index].name"
+          label: "Volume Name"
+          type: string
+          required: true
+        - variable: "storage.additionalStorage.volumes[$index].mountPath"
+          label: "Mount Path"
+          type: string
+          required: true
+
