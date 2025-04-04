@@ -102,7 +102,7 @@ questions:
       - variable: "objectName"
         type: "string"
         label: "The name of the object"
-        description: "Unique name for this volume."
+        description: "Name of object (configMap, secret, ...)"
         required: true
   
       - variable: "readOnly"
