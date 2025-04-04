@@ -81,40 +81,40 @@ questions:
     default: false
     show_subquestion_if: true
     subquestions:
-      - variable: "storage.additionalStorage.volumes[0].type"
-        type: "enum"
-        label: "Volume Type"
-        description: "Select the type of storage volume."
-        required: true
-        options:
-          - "configMap"
-          - "secret"
-          - "persistentVolumeClaim"
-          - "emptyDir"
+    - variable: "storage.additionalStorage.volumes[0].type"
+      type: "enum"
+      label: "Volume Type"
+      description: "Select the type of storage volume."
+      required: true
+      options:
+        - "configMap"
+        - "secret"
+        - "persistentVolumeClaim"
+        - "emptyDir"
 
-      - variable: "storage.additionalStorage.volumes[0].name"
-        type: "string"
-        label: "Volume Name"
-        description: "Unique name for this volume."
-        required: true
+    - variable: "storage.additionalStorage.volumes[0].name"
+      type: "string"
+      label: "Volume Name"
+      description: "Unique name for this volume."
+      required: true
 
-      - variable: "storage.additionalStorage.volumes[0].objectName"
-        type: "string"
-        label: "The name of the object"
-        description: "Unique name for this volume."
-        required: true
+    - variable: "storage.additionalStorage.volumes[0].objectName"
+      type: "string"
+      label: "The name of the object"
+      description: "Unique name for this volume."
+      required: true
 
-      - variable: "storage.additionalStorage.volumes[0].mountPath"
-        type: "string"
-        label: "Mount Path"
-        description: "Path inside the container where the volume should be mounted."
-        required: true
+    - variable: "storage.additionalStorage.volumes[0].mountPath"
+      type: "string"
+      label: "Mount Path"
+      description: "Path inside the container where the volume should be mounted."
+      required: true
 
-      - variable: "storage.additionalStorage.volumes[0].readOnly"
-        type: "boolean"
-        label: "Read-Only"
-        description: "Mount volume as read-only."
-        default: false
+    - variable: "storage.additionalStorage.volumes[0].readOnly"
+      type: "boolean"
+      label: "Read-Only"
+      description: "Mount volume as read-only."
+      default: false
 
   
 #          - variable: "storage.additionalStorage.volumes[0].configMap.name"
