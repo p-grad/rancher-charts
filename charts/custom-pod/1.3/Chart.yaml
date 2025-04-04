@@ -1,7 +1,7 @@
 apiVersion: v2
 name: custom-pod
 description: A Helm chart for Kubernetes - AI pod
-icon: https://raw.githubusercontent.com/mapr/mapr-csi/master/docs/assets/hpe_ezmeral.png
+icon: https://www.neuca.pl/upload/media/default/0001/01/cc6f7f8505078e31836a6cb4cd669341d0b33235.svg
 annotations:
   catalog.cattle.io/type: cluster-tool
   catalog.cattle.io/display-name: Custom Pod
