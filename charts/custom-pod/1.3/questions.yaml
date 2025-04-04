@@ -65,3 +65,11 @@ questions:
     default: ""
     type: string
     required: false
+  - variable: storage.accessMode
+    label: "Storage Access Mode"
+    default: "ReadWriteMany"
+    type: enum
+    options:
+    - "ReadWriteMany"
+    - "ReadWriteOnce"
+    required: true

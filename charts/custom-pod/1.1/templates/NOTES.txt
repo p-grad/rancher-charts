@@ -1,5 +1,0 @@
-To get private ssh key use command:
-kubectl get secrets -n {{ .Release.Namespace }} {{ .Release.Name }}-ssh -o jsonpath='{.data.id_rsa}' | base64 -d
-
-To get IP address use command:
-kubectl get --namespace {{ .Release.Namespace }} svc {{ include "custom-pod.fullname" . }}
