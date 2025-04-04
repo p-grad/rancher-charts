@@ -74,7 +74,8 @@ questions:
     - "ReadWriteOnce"
     required: true
 
-- variable: "storage.additionalStorage.volumes[0].enabled"
+#- variable: "storage.additionalStorage.volumes[0].enabled"
+- variable: "storage.additionalStorage.enabled"
   label: "Enable Additional Storage"
   description: "Enable to add extra storage volumes."
   type: "boolean"
