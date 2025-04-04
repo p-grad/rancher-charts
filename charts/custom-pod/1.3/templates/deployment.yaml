@@ -72,8 +72,12 @@ spec:
           - name: app-storage
             mountPath: {{ .Values.storage.mountPath }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
-            {{- toYaml . | nindent 12 }}
+          {{- range .Values.storage.additionalStorage.volumes }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            {{- if .readOnly }}
+            readOnly: true
+            {{- end }}
           {{- end }}
       {{- if or (eq (index .Values.global.nodeSelector "nvidia.com/gpu.present") "true") (index .Values.global.nodeSelector "nvidia.com/gpu.product") }}
       runtimeClassName: nvidia
@@ -93,9 +97,24 @@ spec:
       - name: app-storage
         persistentVolumeClaim:
           claimName: {{ include "custom-pod.fullname" . }}
+      {{- range .Values.storage.additionalStorage.volumes }}
+      - name: {{ .name }}
+        {{- if eq .type "configMap" }}
+        configMap:
+          name: {{ .configMap.name }}
+        {{- else if eq .type "secret" }}
+        secret:
+          secretName: {{ .secret.secretName }}
+        {{- else if eq .type "persistentVolumeClaim" }}
+        persistentVolumeClaim:
+          claimName: {{ .persistentVolumeClaim.claimName }}
+        {{- else if eq .type "emptyDir" }}
+        emptyDir:
+          {{- if .emptyDir.medium }}
+          medium: {{ .emptyDir.medium }}
+          {{- end }}
+        {{- end }}
       {{- end }}
-      {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if .Values.global.nodeSelectorEnabled }}
       {{- with .Values.global.nodeSelector }}

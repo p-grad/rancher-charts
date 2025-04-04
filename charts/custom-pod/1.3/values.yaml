@@ -114,20 +114,6 @@ startupScript: |
   mkdir /var/run/sshd # bug in 22.04
   /usr/sbin/sshd -De
 
-# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
 tolerations: []
 storage:
   enabled: true
@@ -135,4 +121,19 @@ storage:
   storageClassName: ""  # Leave empty to use the default storage class
   mountPath: /data
   accessMode: ReadWriteMany
-
+  additionalStorage:
+    enabled: false
+    volumes: []
+#      - name: "config-volume"
+#        type: "configMap"
+#        configMap:
+#          name: "my-configmap"
+#        mountPath: "/etc/config"
+#        readOnly: false
+#
+#      - name: "pvc-volume"
+#        type: "persistentVolumeClaim"
+#        persistentVolumeClaim:
+#          claimName: "my-pvc"
+#        mountPath: "/data"
+#        readOnly: true
