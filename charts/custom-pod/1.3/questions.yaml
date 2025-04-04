@@ -85,90 +85,53 @@ questions:
     description: "Configure additional storage volumes and their mount points."
     type: "array"
     show_if: "storage.additionalStorage.enabled=true"
-    subquestions:
-     - variable: storage.additionalStorage.volumeCount
-       label: "Number of Volumes (max 5)"
-       type: int
-       default: 1
-       min: 1
-       max: 5
-   
-     # Loop for volumes based on volumeCount
-     - variable: storage.additionalStorage.volumes[0].type
-       label: "Volume 1 Type"
-       type: enum
-       options:
-         - persistentVolumeClaim
-         - secret
-         - configMap
-       default: persistentVolumeClaim
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 1"
-   
-     - variable: storage.additionalStorage.volumes[0].persistentVolumeClaim.claimName
-       label: "PVC Claim Name (Volume 1)"
-       type: string
-       show_if: "storage.additionalStorage.volumes[0].type == 'persistentVolumeClaim' && storage.additionalStorage.volumeCount >= 1"
-   
-     - variable: storage.additionalStorage.volumes[1].type
-       label: "Volume 2 Type"
-       type: enum
-       options:
-         - persistentVolumeClaim
-         - secret
-         - configMap
-       default: persistentVolumeClaim
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 2"
-   
-     - variable: storage.additionalStorage.volumes[1].persistentVolumeClaim.claimName
-       label: "PVC Claim Name (Volume 2)"
-       type: string
-       show_if: "storage.additionalStorage.volumes[1].type == 'persistentVolumeClaim' && storage.additionalStorage.volumeCount >= 2"
-   
-     # Continue for more volumes (e.g., volumes[2], volumes[3], etc.)
-   
-     # Mount paths for each volume
-     - variable: storage.additionalStorage.volumeMounts[1].mountPath
-       label: "Mount Path (Volume 1)"
-       type: string
-       default: "/data"
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 1"
-   
-     - variable: storage.additionalStorage.volumeMounts[1].mountPath
-       label: "Mount Path (Volume 2)"
-       type: string
-       default: "/data"
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 2"
-   
-     # Continue for volumeMounts[2], volumeMounts[3], etc.
 
-     - variable: storage.additionalStorage.volumes[2].type
-       label: "Volume 3 Type"
-       type: enum
-       options:
-         - persistentVolumeClaim
-         - secret
-         - configMap
-       default: persistentVolumeClaim
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 2"
-   
-     - variable: storage.additionalStorage.volumes[2].persistentVolumeClaim.claimName
-       label: "PVC Claim Name (Volume 2)"
-       type: string
-       show_if: "storage.additionalStorage.volumes[2].type == 'persistentVolumeClaim' && storage.additionalStorage.volumeCount >= 2"
-   
-     # Continue for more volumes (e.g., volumes[2], volumes[3], etc.)
-   
-     # Mount paths for each volume
-     - variable: storage.additionalStorage.volumeMounts[2].mountPath
-       label: "Mount Path (Volume 1)"
-       type: string
-       default: "/data"
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 1"
-   
-     - variable: storage.additionalStorage.volumeMounts[2].mountPath
-       label: "Mount Path (Volume 2)"
-       type: string
-       default: "/data"
-       show_if: "storage.additionalStorage.enabled && storage.additionalStorage.volumeCount >= 2"
-   
-     # Continue for volumeMounts[2], volumeMounts[3], etc.
+
+    - variable: "storage.additionalStorage.volumes"
+      label: "Additional Volumes"
+      description: "Configure additional storage volumes and their mount points."
+      type: "array"
+      min_items: 1  # Enforce at least one volume
+      items:
+        - type: object
+          properties:
+            - variable: "storage.additionalStorage.volumes[$index].type"
+              label: "Volume Type"
+              type: "enum"
+              options:
+                - secret
+                - configMap
+                - persistentVolumeClaim
+              required: true
+    
+            - variable: "storage.additionalStorage.volumes[$index].name"
+              label: "Volume Name"
+              type: "string"
+              required: true
+    
+            - variable: "storage.additionalStorage.volumes[$index].secret.secretName"
+              label: "Secret Name (if using secret)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "secret"'
+              required: true
+    
+            - variable: "storage.additionalStorage.volumes[$index].configMap.name"
+              label: "ConfigMap Name (if using configMap)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "configMap"'
+              required: true
+    
+            - variable: "storage.additionalStorage.volumes[$index].persistentVolumeClaim.claimName"
+              label: "PVC Claim Name (if using PVC)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "persistentVolumeClaim"'
+              required: true
+    
+            - variable: "storage.additionalStorage.volumeMounts[$index].mountPath"
+              label: "Mount Path"
+              type: "string"
+              required: true
+    
+            - variable: "storage.additionalStorage.volumeMounts[$index].subPath"
+              label: "Sub Path (Optional)"
+              type: "string"
