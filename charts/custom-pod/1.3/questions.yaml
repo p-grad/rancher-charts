@@ -79,7 +79,7 @@ questions:
     description: "Enable to add extra storage volumes."
     type: "boolean"
     default: false
-    show_if: "storage.additionalStorage.volumes[0].enabled == true"
+    show_subquestion_if: true
     subquestions:
       - variable: "storage.additionalStorage.volumes[0].type"
         type: "enum"
