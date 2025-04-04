@@ -124,16 +124,13 @@ storage:
   additionalStorage:
     enabled: false
     volumes: []
-#      - name: "config-volume"
-#        type: "configMap"
-#        configMap:
-#          name: "my-configmap"
-#        mountPath: "/etc/config"
+#      - type: "configMap"
+#        name: "configMapVolume1"
+#        objectName: "configMapObject1"
+#        mountPath: "/mnt/config1"
 #        readOnly: false
-#
-#      - name: "pvc-volume"
-#        type: "persistentVolumeClaim"
-#        persistentVolumeClaim:
-#          claimName: "my-pvc"
-#        mountPath: "/data"
+#      - type: "persistentVolumeClaim"
+#        name: "pvcVolume1"
+#        objectName: "pvcObject1"
+#        mountPath: "/mnt/pvc1"
 #        readOnly: true

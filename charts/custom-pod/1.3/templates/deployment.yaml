@@ -101,18 +101,13 @@ spec:
       - name: {{ .name }}
         {{- if eq .type "configMap" }}
         configMap:
-          name: {{ .configMap.name }}
+          name: {{ .objectName }}
         {{- else if eq .type "secret" }}
         secret:
-          secretName: {{ .secret.secretName }}
+          secretName: {{ .objectName}}
         {{- else if eq .type "persistentVolumeClaim" }}
         persistentVolumeClaim:
-          claimName: {{ .persistentVolumeClaim.claimName }}
-        {{- else if eq .type "emptyDir" }}
-        emptyDir:
-          {{- if .emptyDir.medium }}
-          medium: {{ .emptyDir.medium }}
-          {{- end }}
+          claimName: {{ .objectName }}
         {{- end }}
       {{- end }}
       {{- end }}
