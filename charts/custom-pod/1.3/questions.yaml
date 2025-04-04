@@ -35,7 +35,7 @@ questions:
   type: string
 - variable: startupScript
   label: "Startup Script"
-  group: "Startu Script"
+  group: "Startup Script"
   type: "multiline"
   default: |
     mkdir -p /root/.ssh
@@ -79,53 +79,54 @@ questions:
     description: "Enable to add extra storage volumes."
     type: "boolean"
     default: false
+    show_subquestion_if: true
+    subquestions:
+    - variable: "storage.additionalStorage.volumes"
+      label: "Additional Volumes"
+      description: "Configure additional storage volumes"
+      type: "array"
+      min_items: 1
+      show_if: "storage.additionalStorage.enabled=true"
+      items:
+        - type: object
+          properties:
+            - variable: "storage.additionalStorage.volumes[$index].type"
+              label: "Volume Type"
+              type: "enum"
+              options:
+                - secret
+                - configMap
+                - persistentVolumeClaim
+              required: true
 
-  - variable: "storage.additionalStorage.volumes"
-    label: "Additional Volumes"
-    description: "Configure additional storage volumes and their mount points."
-    type: "array"
-    show_if: "storage.additionalStorage.enabled=true"
-    min_items: 1  # Enforce at least one volume
-    items:
-    - type: object
-      properties:
-        - variable: "storage.additionalStorage.volumes[$index].type"
-          label: "Volume Type"
-          type: "enum"
-          options:
-            - secret
-            - configMap
-            - persistentVolumeClaim
-          required: true
+            - variable: "storage.additionalStorage.volumes[$index].name"
+              label: "Volume Name"
+              type: "string"
+              required: true
 
-        - variable: "storage.additionalStorage.volumes[$index].name"
-          label: "Volume Name"
-          type: "string"
-          required: true
+            - variable: "storage.additionalStorage.volumes[$index].secret.secretName"
+              label: "Secret Name (if using secret)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "secret"'
+              required: true
 
-        - variable: "storage.additionalStorage.volumes[$index].secret.secretName"
-          label: "Secret Name (if using secret)"
-          type: "string"
-          show_if: 'storage.additionalStorage.volumes[$index].type == "secret"'
-          required: true
+            - variable: "storage.additionalStorage.volumes[$index].configMap.name"
+              label: "ConfigMap Name (if using configMap)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "configMap"'
+              required: true
 
-        - variable: "storage.additionalStorage.volumes[$index].configMap.name"
-          label: "ConfigMap Name (if using configMap)"
-          type: "string"
-          show_if: 'storage.additionalStorage.volumes[$index].type == "configMap"'
-          required: true
+            - variable: "storage.additionalStorage.volumes[$index].persistentVolumeClaim.claimName"
+              label: "PVC Claim Name (if using PVC)"
+              type: "string"
+              show_if: 'storage.additionalStorage.volumes[$index].type == "persistentVolumeClaim"'
+              required: true
 
-        - variable: "storage.additionalStorage.volumes[$index].persistentVolumeClaim.claimName"
-          label: "PVC Claim Name (if using PVC)"
-          type: "string"
-          show_if: 'storage.additionalStorage.volumes[$index].type == "persistentVolumeClaim"'
-          required: true
+            - variable: "storage.additionalStorage.volumeMounts[$index].mountPath"
+              label: "Mount Path"
+              type: "string"
+              required: true
 
-        - variable: "storage.additionalStorage.volumeMounts[$index].mountPath"
-          label: "Mount Path"
-          type: "string"
-          required: true
-
-        - variable: "storage.additionalStorage.volumeMounts[$index].subPath"
-          label: "Sub Path (Optional)"
-          type: "string"
+            - variable: "storage.additionalStorage.volumeMounts[$index].subPath"
+              label: "Sub Path (Optional)"
+              type: "string"
