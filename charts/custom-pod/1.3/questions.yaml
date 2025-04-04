@@ -78,14 +78,13 @@ questions:
   label: "Enable Additional Storage"
   description: "Enable to add extra storage volumes."
   type: "boolean"
-  group: "Storage"
+  group: "Additional Storage"
   default: false
   show_subquestion_if: true
   subquestions:
   - variable: "storage.additionalStorage.volumes[0].type"
     type: "enum"
     label: "Volume Type"
-    group: "Storage"
     description: "Select the type of storage volume."
     required: true
     options:
@@ -96,7 +95,6 @@ questions:
 
   - variable: "storage.additionalStorage.volumes[0].name"
     type: "string"
-    group: "Storage"
     label: "Volume Name"
     description: "Unique name for this volume."
     required: true
@@ -104,21 +102,18 @@ questions:
   - variable: "storage.additionalStorage.volumes[0].objectName"
     type: "string"
     label: "The name of the object"
-    group: "Storage"
     description: "Unique name for this volume."
     required: true
 
   - variable: "storage.additionalStorage.volumes[0].mountPath"
     type: "string"
     label: "Mount Path"
-    group: "Storage"
     description: "Path inside the container where the volume should be mounted."
     required: true
 
   - variable: "storage.additionalStorage.volumes[0].readOnly"
     type: "boolean"
     label: "Read-Only"
-    group: "Storage"
     description: "Mount volume as read-only."
     default: false
 
