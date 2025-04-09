@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes - AI custom deployment
 icon: https://www.neuca.pl/upload/media/default/0001/01/cc6f7f8505078e31836a6cb4cd669341d0b33235.svg
 annotations:
   catalog.cattle.io/type: cluster-tool
-  catalog.cattle.io/display-name: Custom Pod
+  catalog.cattle.io/display-name: Neuca Custom Deployment
 keywords:
 - LLM
 - AI
