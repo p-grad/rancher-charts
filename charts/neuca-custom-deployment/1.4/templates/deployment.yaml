@@ -45,7 +45,7 @@ spec:
             {{- $refStr := toString $secretRef }}
             {{- $parts := split ":" $secretRef }}
           - name: {{ $name }}
-            valeFrom:
+            valueFrom:
               secretKeyRef:
                 name: {{ index $parts._0 }}
                 key: {{ index $parts._1 }}

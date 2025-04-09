@@ -103,8 +103,8 @@ questions:
     group: "Environment"
     label: "Environment Variables"
     description: |
-      "Give environmet variable definition in format: key=\"variable-name\", value=\"secret-name:secret-key\""
-      "The referenced secreats must exist before release creation"
+      Give environmet variable definition in format: key="variable-name", value="secret-name:secret-key"  
+      The referenced secreats must exist before release creation
     default:
       API_KEY: "bielik-secrets:api-key"
       HUGGING_FACE_HUB_TOKEN: "bielik-secrets:token"
