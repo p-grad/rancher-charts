@@ -32,7 +32,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if .Values.env }}
+          {{- if .Values.envEnabled }}
           env:
             {{- range $key, $value := .Values.env }}
           - name: {{ $key }}
@@ -58,7 +58,7 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if .Values.resources }}
+          {{- if .Values.resourcesEnabled }}
           resources:
             requests: 
             {{- with .Values.resources }}
