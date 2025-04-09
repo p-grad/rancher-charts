@@ -88,7 +88,7 @@ ingress:
   #      - chart-example.local
 envEnabled: true
 env:
-  env1: "value env1"
+  API_KEY: "api-key123asdfas"
 resourcesEnabled: false
 resources: 
   cpu: "100m"

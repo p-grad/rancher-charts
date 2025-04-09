@@ -60,7 +60,7 @@ spec:
           {{- end }}
           {{- if .Values.resourcesEnabled }}
           resources:
-            requests: 
+            limits: 
             {{- with .Values.resources }}
               {{- toYaml . | nindent 14 }}
             {{- end }}

@@ -1,15 +1,17 @@
 rancher_min_version: 2.7.5
 questions:
-- variable: global.registry
-  label: "Registry"
-  group: "Global Settings"
-  default: "aiprdkir.ai.neuca.pl"
-  type: string
 - variable: global.ssh
   label: "Enable ssh"
   group: "Global Settings"
   default: true
   type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: global.registry
+    label: "Registry"
+    group: "Global Settings"
+    default: "aiprdkir.ai.neuca.pl"
+    type: string
 - variable: global.nodeSelectorEnabled
   label: "Node Selector"
   group: "Global Settings"
