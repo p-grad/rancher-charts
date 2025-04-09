@@ -35,7 +35,7 @@ questions:
   type: string
 - variable: startupScript
   label: "Startup Script"
-  group: "Startup Script"
+  group: "Startu Script"
   type: "multiline"
   default: |
     mkdir -p /root/.ssh
@@ -43,6 +43,38 @@ questions:
     mkdir /var/run/sshd # bug in 22.04
     /usr/sbin/sshd -De
   required: true
+- variable: envEnabled
+  label: "Enable pod environment variables"
+  group: "Environment"
+  default: true
+  type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: env
+    group: "Environment"
+    label: "Environment Variables"
+    description: "Environment Variables"
+    default:
+      env1: "value of env1"
+    type: "map"
+    required: false
+- variable: resourcesEnabled
+  label: "Enable pod resources decaration"
+  group: "Resources"
+  default: true
+  type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: resources
+    group: "Resources"
+    label: "Resources"
+    description: "Requested resources"
+    default:
+      cpu: "100m"
+      memory: "128Mi"
+      gpu: "1"
+    type: "map"
+    required: false
 - variable: storage.enabled
   label: "Pod Storage"
   default: true
