@@ -4,9 +4,9 @@
 
 
 global:
-  vllm: false
+  vllm: true
   ssh: true
-  registry: aiprdkir.ai.neuca.pl
+  kubectlImage: "aiprdkir.ai.neuca.pl/docker.io/bitnami/kubectl:latest"
   nodeSelectorEnabled: true
   nodeSelector:
     nvidia.com/gpu.present: "true"
@@ -14,11 +14,9 @@ global:
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: aiprdkir.ai.neuca.pl/library/cuda
+  image: "aiprdkir.ai.neuca.pl/library/cuda:12-2-cudnn-8.9.7"
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "12-2-cudnn-8.9.7"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -97,11 +95,13 @@ resources:
   #   memory: 128Mi
   #   gpu: 1
 
-startupScript: |
+customStartupScript: |
   mkdir -p /root/.ssh
   chmod 700 /root/.ssh
   mkdir /var/run/sshd # bug in 22.04
   /usr/sbin/sshd -De
+vllmStartupScript: |
+  vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY
 
 tolerations: []
 storage:

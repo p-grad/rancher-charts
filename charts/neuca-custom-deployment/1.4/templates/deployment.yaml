@@ -43,22 +43,14 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ .Values.image.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.startupScript }}
           command:
           - /bin/sh
           - /usr/bin/startup.sh
           {{- end }}
-          {{- if .Values.global.ssh }}
-          livenessProbe:
-            tcpSocket:
-              port: 22
-          readinessProbe:
-            tcpSocket:
-              port: 22
-          livenessProbe:
-          {{- else }}
+          {{- if .Values.global.vllm }}
           livenessProbe:
             httpGet:
               path: /health
@@ -71,6 +63,16 @@ spec:
               port: 8000
             initialDelaySeconds: 120
             periodSeconds: 5
+          {{- else }}
+          {{- if .Values.global.ssh }}
+          livenessProbe:
+            tcpSocket:
+              port: 22
+          readinessProbe:
+            tcpSocket:
+              port: 22
+          livenessProbe:
+          {{- end }}
           {{- end }}
           {{- if .Values.resourcesEnabled }}
           resources:

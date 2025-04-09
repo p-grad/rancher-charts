@@ -14,11 +14,7 @@ spec:
         runAsUser: 0  # Run as root user
       containers:
         - name: ssh-keygen
-          {{- if .Values.global.registry }}
-          image: "{{ .Values.global.registry }}/docker.io/bitnami/kubectl:latest"
-          {{- else }}
-          image: bitnami/kubectl:latest
-          {{- end }}
+          image: {{ .Values.global.kubectlImage }}
           command: ["/bin/sh", "-c"]
           args:
             - |

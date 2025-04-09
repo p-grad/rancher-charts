@@ -5,35 +5,8 @@ questions:
   group: "Global Settings"
   default: false
   type: boolean
-  show_subquestion_if: true
-  subquestions:
-  - variable: vllmStartupScript
-    label: "Startup Script"
-    group: "Startup Script"
-    type: "multiline"
-    description: |
-      "examples: "
-      "/usr/sbin/sshd -De"
-      "vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY"
-    default: |
-      vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY
-    required: true
   show_subquestion_if: false
   subquestions:
-  - variable: customStartupScript
-    label: "Startup Script"
-    group: "Startup Script"
-    type: "multiline"
-    description: |
-      "examples: "
-      "/usr/sbin/sshd -De"
-      "vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY"
-    default: |
-      mkdir -p /root/.ssh
-      chmod 700 /root/.ssh
-      mkdir /var/run/sshd # bug in 22.04
-      /usr/sbin/sshd -De
-    required: true
   - variable: global.ssh
     label: "Enable ssh"
     group: "Global Settings"
@@ -77,6 +50,20 @@ questions:
   required: true
   type: string
   description: "tag for vllm: latest"
+- variable: startupScript
+  label: "Startup Script"
+  group: "Startup Script"
+  type: "multiline"
+  description: |
+    "examples: "
+    "/usr/sbin/sshd -De"
+    "vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY"
+  default: |
+    mkdir -p /root/.ssh
+    chmod 700 /root/.ssh
+    mkdir /var/run/sshd # bug in 22.04
+    /usr/sbin/sshd -De
+  required: true
 - variable: envEnabled
   label: "Enable pod environment variables"
   group: "Environment"
@@ -111,7 +98,6 @@ questions:
     required: false
 - variable: storage.enabled
   label: "Pod Storage"
-  description: "Set up pod storage - storage will be created and delated with this realease"
   default: true
   type: boolean
   group: "Storage"
@@ -142,7 +128,7 @@ questions:
     required: true
 - variable: additionalStorage.enabled
   label: "Additional Storage"
-  description: "Storage not created with this deployment - PVC must exist before installing this release"
+  description: "Storage not created with this deployment"
   default: false
   type: boolean
   group: "Additional Storage"
