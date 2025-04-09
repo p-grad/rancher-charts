@@ -29,5 +29,5 @@ spec:
               service:
                 name: {{ include "neuca-custom-deployment.fullname" $ }}
                 port:
-                  number: 80
+                  number: {{ .Values.ingress.servicePort }}
 {{- end }}

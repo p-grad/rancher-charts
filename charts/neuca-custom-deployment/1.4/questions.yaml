@@ -161,16 +161,6 @@ questions:
 - variable: service.type
   label: "Service Type"
   default: "ClusterIP"
-  group: "Service"
-  type: enum
-  options:
-  - "ClusterIP"
-  - "NodePort"
-  - "LoadBalancer"
-  required: true
-- variable: service.type
-  label: "Service Type"
-  default: "ClusterIP"
   group: "Network"
   type: enum
   options:
@@ -198,6 +188,10 @@ questions:
     description: "Service FQDN - remember to add it to DNS or hosts file"
     label: "Ingress FQDN"
     default: "my-service.ai.neuca.pl"
+    type: string
+  - variable: ingress.servicePort
+    label: "Service Port Number"
+    default: "80"
     type: string
   - variable: ingress.tls
     label: "Use SSL"
