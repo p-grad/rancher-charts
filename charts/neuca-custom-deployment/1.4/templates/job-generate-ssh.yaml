@@ -1,3 +1,4 @@
+{{- if .Values.global.ssh }
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -38,3 +39,4 @@ spec:
                 --dry-run=client -o yaml | kubectl apply -f -
 
 #              echo "deb http://deb.debian.org/debian stable main" > /etc/apt/sources.list
+{{- end }}
