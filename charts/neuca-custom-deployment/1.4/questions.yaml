@@ -9,7 +9,7 @@ questions:
   subquestions:
   - variable: vllmStartupScript
     label: "Startup Script"
-    group: "Startup Script"
+    group: "vLLM Startup Script"
     type: "multiline"
     description: |
       "examples: "
@@ -22,7 +22,7 @@ questions:
   subquestions:
   - variable: customStartupScript
     label: "Startup Script"
-    group: "Startup Script"
+    group: "Custom Deployment Startup Script"
     type: "multiline"
     description: |
       "examples: "
