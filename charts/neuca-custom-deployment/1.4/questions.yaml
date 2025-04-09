@@ -56,9 +56,9 @@ questions:
   label: "Resources"
   description: "Requested resources"
   default:
-    cpu: 100m
-    memory: 128Mi
-    gpu: 1
+    cpu: "100m"
+    memory: "128Mi"
+    gpu: "1"
   type: "map"
   required: false
 - variable: storage.enabled
