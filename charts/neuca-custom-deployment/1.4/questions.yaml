@@ -38,6 +38,7 @@ questions:
   label: "Startup Script"
   group: "vLLM Startup Script"
   type: "multiline"
+  show_if: "global.vllm=true"
   description: |
     "examples: "
     "/usr/sbin/sshd -De"
