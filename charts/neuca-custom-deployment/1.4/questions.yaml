@@ -5,6 +5,11 @@ questions:
   group: "Global Settings"
   default: "aiprdkir.ai.neuca.pl"
   type: string
+- variable: global.ssh
+  label: "Enable ssh"
+  group: "Global Settings"
+  default: true
+  type: boolean
 - variable: global.nodeSelectorEnabled
   label: "Node Selector"
   group: "Global Settings"
@@ -35,7 +40,7 @@ questions:
   type: string
 - variable: startupScript
   label: "Startup Script"
-  group: "Startu Script"
+  group: "Startup Script"
   type: "multiline"
   default: |
     mkdir -p /root/.ssh
@@ -104,5 +109,23 @@ questions:
     options:
     - "ReadWriteMany"
     - "ReadWriteOnce"
+    required: true
+- variable: additionalStorage.enabled
+  label: "Additional Storage"
+  description: "Storage not created with this deployment"
+  default: false
+  type: boolean
+  group: "Additional Storage"
+  show_subquestion_if: true
+  subquestions:
+  - variable: additionalStorage.pvc
+    label: "Existing PVC Name"
+    default: "shared-storage"
+    type: string
+    required: true
+  - variable: additionalStorage.mountPath
+    label: "Mount Path"
+    default: "/mnt"
+    type: string
     required: true
 

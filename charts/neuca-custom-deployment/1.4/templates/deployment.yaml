@@ -65,7 +65,10 @@ spec:
               {{- toYaml . | nindent 14 }}
             {{- end }}
           {{- end }}
+          {{- if or (.Values.global.ssh) (.Values.startupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) }}
           volumeMounts:
+          {{- end }}
+          {{- if .Values.global.ssh }}
           - name: ssh-keys
             mountPath: /root/.ssh/id_rsa
             subPath: id_rsa
@@ -73,6 +76,7 @@ spec:
           - mountPath: /root/.ssh/authorized_keys
             name: ssh-keys
             subPath: id_rsa.pub
+          {{- end }}
           {{- if .Values.startupScript }}
           - name: startup-script
             mountPath: /usr/bin/startup.sh
@@ -82,21 +86,20 @@ spec:
           - name: app-storage
             mountPath: {{ .Values.storage.mountPath }}
           {{- end }}
-          {{- range .Values.storage.additionalStorage.volumes }}
-          - name: {{ .name }}
-            mountPath: {{ .mountPath }}
-            {{- if .readOnly }}
-            readOnly: true
-            {{- end }}
+          {{- if .Values.additionalStorage.enbled }}
+          - name: add-storage
+            mountPath: {{ .Values.additionalStorage.mountPath }}
           {{- end }}
       {{- if or (eq (index .Values.global.nodeSelector "nvidia.com/gpu.present") "true") (index .Values.global.nodeSelector "nvidia.com/gpu.product") }}
       runtimeClassName: nvidia
       {{- end }}
       volumes:
+      {{- if .Values.global.ssh }}
       - name: ssh-keys
         secret:
           secretName: {{ .Release.Name }}-ssh
           defaultMode: 448
+      {{- end }}
       {{- if .Values.startupScript }}
       - name: startup-script
         configMap:
@@ -107,19 +110,11 @@ spec:
       - name: app-storage
         persistentVolumeClaim:
           claimName: {{ include "neuca-custom-deployment.fullname" . }}
-      {{- range .Values.storage.additionalStorage.volumes }}
-      - name: {{ .name }}
-        {{- if eq .type "configMap" }}
-        configMap:
-          name: {{ .objectName }}
-        {{- else if eq .type "secret" }}
-        secret:
-          secretName: {{ .objectName}}
-        {{- else if eq .type "persistentVolumeClaim" }}
-        persistentVolumeClaim:
-          claimName: {{ .objectName }}
-        {{- end }}
       {{- end }}
+      {{- if .Values.additionalStorage.enbled }}
+      - name: add-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.additionalStorage.pvc }}
       {{- end }}
       {{- if .Values.global.nodeSelectorEnabled }}
       {{- with .Values.global.nodeSelector }}

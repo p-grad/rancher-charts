@@ -5,6 +5,7 @@
 
 global:
   registry: aiprdkir.ai.neuca.pl
+  ssh: true
   nodeSelectorEnabled: true
   nodeSelector:
     nvidia.com/gpu.present: "true"
@@ -85,8 +86,10 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+envEnabled: true
 env:
   env1: "value env1"
+resourcesEnabled: false
 resources: 
   cpu: "100m"
   memory: "128Mi"
@@ -121,20 +124,11 @@ startupScript: |
 tolerations: []
 storage:
   enabled: true
-  storageSize: 10Gi
-  storageClassName: ""  # Leave empty to use the default storage class
+  size: 10Gi
+  className: ""  # Leave empty to use the default storage class
   mountPath: /data
   accessMode: ReadWriteMany
-  additionalStorage:
-    enabled: false
-    volumes: []
-#      - type: "configMap"
-#        name: "configMapVolume1"
-#        objectName: "configMapObject1"
-#        mountPath: "/mnt/config1"
-#        readOnly: false
-#      - type: "persistentVolumeClaim"
-#        name: "pvcVolume1"
-#        objectName: "pvcObject1"
-#        mountPath: "/mnt/pvc1"
-#        readOnly: true
+additionalStorage:
+  enabled: false
+  mountPath: /mnt
+  pvc: "shared-storage"
