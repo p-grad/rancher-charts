@@ -7,13 +7,6 @@ questions:
   type: boolean
   show_subquestion_if: false
   subquestions:
-  - variable: image.customImage
-    label: "Image"
-    group: "Image"
-    default: "aiprdkir.ai.neuca.pl/library/cuda:12-2-cudnn-8.9.7-v1"
-    required: true
-    type: string
-    description: "image for custom deployment"
   - variable: customStartupScript
     label: "Startup Script"
     group: "Custom Deployment Startup Script"
@@ -28,6 +21,13 @@ questions:
       mkdir /var/run/sshd # bug in 22.04
       /usr/sbin/sshd -De
     required: true
+  - variable: image.customImage
+    label: "Image"
+    group: "Image"
+    default: "aiprdkir.ai.neuca.pl/library/cuda:12-2-cudnn-8.9.7-v1"
+    required: true
+    type: string
+    description: "image for custom deployment"
   - variable: global.ssh
     label: "Enable ssh"
     group: "Global Settings"
