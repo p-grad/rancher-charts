@@ -43,7 +43,11 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: {{ .Values.image.image }}
+          {{- if .Values.global.vllm }}
+          image: {{ .Values.image.vllmImage }}
+          {{- else }}
+          image: {{ .Values.image.customImage }}
+          {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.startupScript }}
           command:

@@ -7,6 +7,13 @@ questions:
   type: boolean
   show_subquestion_if: false
   subquestions:
+  - variable: image.customImage
+    label: "Image"
+    group: "Image"
+    default: "aiprdkir.ai.neuca.pl/library/cuda:12-2-cudnn-8.9.7-v1"
+    required: true
+    type: string
+    description: "image for custom deployment"
   - variable: customStartupScript
     label: "Startup Script"
     group: "Custom Deployment Startup Script"
@@ -62,20 +69,14 @@ questions:
       nvidia.com/gpu.product: "NVIDIA-H100-NVL"
     type: "map"
     required: true
-- variable: image.repository
+- variable: image.vllmImage
   label: "Image"
   group: "Image"
-  default: "aiprdkir.ai.neuca.pl/library/cuda"
+  default: "aiprdkir.ai.neuca.pl/docker.io/vllm/vllm-openai:latest"
   required: true
+  show_if: "global.vllm=true"
   type: string
-  description: "image for vllm: aiprdkir.ai.neuca.pl/docker.io/vllm/vllm-openai"
-- variable: image.tag
-  group: "Image"
-  default: "12-2-cudnn-8.9.7"
-  label: "Image tag"
-  required: true
-  type: string
-  description: "tag for vllm: latest"
+  description: "image for vllm"
 - variable: envEnabled
   label: "Enable pod environment variables"
   group: "Environment"
