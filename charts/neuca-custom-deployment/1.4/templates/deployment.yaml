@@ -119,7 +119,7 @@ spec:
           - name: app-storage
             mountPath: {{ .Values.storage.mountPath }}
           {{- end }}
-          {{- if .Values.additionalStorage.enbled }}
+          {{- if .Values.additionalStorage.enabled }}
           - name: add-storage
             mountPath: {{ .Values.additionalStorage.mountPath }}
           {{- end }}
