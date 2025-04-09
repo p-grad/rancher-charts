@@ -50,13 +50,27 @@ spec:
           - /bin/sh
           - /usr/bin/startup.sh
           {{- end }}
-          {{- with .Values.livenessProbe }}
+          {{- if .Values.global.ssh }}
           livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.readinessProbe }}
+            tcpSocket:
+              port: 22
           readinessProbe:
-            {{- toYaml . | nindent 12 }}
+            tcpSocket:
+              port: 22
+          livenessProbe:
+          {{- else }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 5
           {{- end }}
           {{- if .Values.resourcesEnabled }}
           resources:

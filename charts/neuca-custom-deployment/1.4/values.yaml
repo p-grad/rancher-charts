@@ -4,8 +4,9 @@
 
 
 global:
-  registry: aiprdkir.ai.neuca.pl
+  vllm: false
   ssh: true
+  registry: aiprdkir.ai.neuca.pl
   nodeSelectorEnabled: true
   nodeSelector:
     nvidia.com/gpu.present: "true"
@@ -61,15 +62,8 @@ service:
   type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   ports:
-   - port: 80
-     targetPort: 80
-     protocol: TCP
-     name: http
-   - port: 22
-     targetPort: 22
-     protocol: TCP
-     name: ssh
-
+    "22": "22"
+    "80": "80"
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: false
@@ -77,12 +71,8 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
+  host: chart-example.local
+  tls: true
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -91,8 +81,8 @@ env:
   API_KEY: "api-key123asdfas"
 resourcesEnabled: false
 resources: 
-  cpu: "100m"
-  memory: "128Mi"
+  cpu: "10"
+  memory: "20G"
   nvidia.com/gpu: "1"
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -106,14 +96,6 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
   #   gpu: 1
-
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  tcpSocket:
-    port: 22
-readinessProbe:
-  tcpSocket:
-    port: 22
 
 startupScript: |
   mkdir -p /root/.ssh
