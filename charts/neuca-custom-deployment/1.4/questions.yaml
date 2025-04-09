@@ -78,7 +78,7 @@ questions:
     default:
       cpu: "100m"
       memory: "128Mi"
-      gpu: "1"
+      nvidia.com/gpu: "1"
     type: "map"
     required: false
 - variable: storage.enabled
