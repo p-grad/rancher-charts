@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-generate-ssh-keys
+  annotations:
+    "helm.sh/hook-weight": "-3"
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-ssh-job-sa
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 0  # Run as root user
+      containers:
+        - name: ssh-keygen
+          {{- if .Values.global.registry }}
+          image: "{{ .Values.global.registry }}/docker.io/bitnami/kubectl:latest"
+          {{- else }}
+          image: bitnami/kubectl:latest
+          {{- end }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Checking if secret {{ .Release.Name }}-ssh exists"
+              kubectl get secrets {{ .Release.Name }}-ssh > /dev/null
+              if [ $? -eq 0 ]
+              then
+                echo "Secret {{ .Release.Name }}-ssh already exists"
+                exit 0
+              else
+                echo "Secret {{ .Release.Name }}-ssh does not exist - creating"
+              fi
+              apt-get update -y && apt-get install -y openssh-client &&
+              ssh-keygen -t rsa -b 4096 -f /tmp/ssh-key -N "" &&
+              kubectl create secret generic  {{ .Release.Name }}-ssh \
+                --from-file=id_rsa=/tmp/ssh-key \
+                --from-file=id_rsa.pub=/tmp/ssh-key.pub \
+                --dry-run=client -o yaml | kubectl apply -f -
+
+#              echo "deb http://deb.debian.org/debian stable main" > /etc/apt/sources.list
