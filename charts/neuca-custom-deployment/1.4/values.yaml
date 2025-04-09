@@ -118,5 +118,5 @@ storage:
   accessMode: ReadWriteMany
 additionalStorage:
   enabled: false
-  mountPath: /mnt
+  mountPath: /root/.cache/huggingface
   pvc: "shared-storage"

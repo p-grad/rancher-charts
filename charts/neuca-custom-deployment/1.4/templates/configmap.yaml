@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-startup-script
 data:
+  startup.sh: |
   {{- if .Values.global.vllm }}
     {{- .Values.vllmStartupScript | nindent 4 }}
   {{- else }}
-  startup.sh: |
     {{- .Values.customStartupScript | nindent 4 }}
   {{- end }}
