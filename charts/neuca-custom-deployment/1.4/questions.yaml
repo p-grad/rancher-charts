@@ -42,6 +42,7 @@ questions:
   label: "Startup Script"
   group: "Startup Script"
   type: "multiline"
+  description: "examples: /usr/sbin/sshd -De\nvllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY"
   default: |
     mkdir -p /root/.ssh
     chmod 700 /root/.ssh
