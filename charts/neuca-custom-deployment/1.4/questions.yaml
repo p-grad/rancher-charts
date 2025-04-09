@@ -153,122 +153,6 @@ questions:
   - "NodePort"
   - "LoadBalancer"
   required: true
-- variable: service.ports
-  label: "Ports"
-  group: "Service"
-  type: "map"
-  default:
-    nvidia.com/gpu.present: "true"
-    nvidia.com/gpu.product: "NVIDIA-H100-NVL"
-  required: true
-- variable: image.repository
-  label: "Image"
-  group: "Image"
-  default: "aiprdkir.ai.neuca.pl/library/cuda"
-  required: true
-  type: string
-  description: "image for vllm: aiprdkir.ai.neuca.pl/docker.io/vllm/vllm-openai"
-- variable: image.tag
-  group: "Image"
-  default: "12-2-cudnn-8.9.7"
-  label: "Image tag"
-  required: true
-  type: string
-  description: "tag for vllm: latest"
-- variable: startupScript
-  label: "Startup Script"
-  group: "Startup Script"
-  type: "multiline"
-  description: |
-    "examples: "
-    "/usr/sbin/sshd -De"
-    "vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY"
-  default: |
-    mkdir -p /root/.ssh
-    chmod 700 /root/.ssh
-    mkdir /var/run/sshd # bug in 22.04
-    /usr/sbin/sshd -De
-  required: true
-- variable: envEnabled
-  label: "Enable pod environment variables"
-  group: "Environment"
-  default: true
-  type: boolean
-  show_subquestion_if: true
-  subquestions:
-  - variable: env
-    group: "Environment"
-    label: "Environment Variables"
-    description: "Environment Variables"
-    default:
-      env1: "value of env1"
-    type: "map"
-    required: false
-- variable: resourcesEnabled
-  label: "Enable pod resources decaration"
-  group: "Resources"
-  default: true
-  type: boolean
-  show_subquestion_if: true
-  subquestions:
-  - variable: resources
-    group: "Resources"
-    label: "Resources"
-    description: "Requested resources"
-    default:
-      cpu: "100m"
-      memory: "128Mi"
-      nvidia.com/gpu: "1"
-    type: "map"
-    required: false
-- variable: storage.enabled
-  label: "Pod Storage"
-  default: true
-  type: boolean
-  group: "Storage"
-  show_subquestion_if: true
-  subquestions:
-  - variable: storage.storageSize
-    label: "Storage Size"
-    default: "10Gi"
-    type: string
-    required: true
-  - variable: storage.mountPath
-    default: "/data"
-    label: "Mount Point"
-    type: string
-    required: true
-  - variable: storage.storageClassName
-    label: "Storage Class Name"
-    default: ""
-    type: string
-    required: false
-  - variable: storage.accessMode
-    label: "Storage Access Mode"
-    default: "ReadWriteMany"
-    type: enum
-    options:
-    - "ReadWriteMany"
-    - "ReadWriteOnce"
-    required: true
-- variable: additionalStorage.enabled
-  label: "Additional Storage"
-  description: "Storage not created with this deployment"
-  default: false
-  type: boolean
-  group: "Additional Storage"
-  show_subquestion_if: true
-  subquestions:
-  - variable: additionalStorage.pvc
-    label: "Existing PVC Name"
-    default: "shared-storage"
-    type: string
-    required: true
-  - variable: additionalStorage.mountPath
-    label: "Mount Path"
-    default: "/mnt"
-    type: string
-    required: true
 - variable: service.type
   label: "Service Type"
   default: "ClusterIP"
@@ -282,7 +166,7 @@ questions:
 - variable: service.ports
   label: "Ports"
   group: "Network"
-  description: "Add ports: service port - pod port"
+  description: "Add ports: service port - target port"
   type: "map"
   default:
     "22": "22"
@@ -296,6 +180,7 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable: ingress.host
+    description: "Service FQDN - remember to add it to DNS or hosts file"
     label: "Ingress FQDN"
     default: "my-service.ai.neuca.pl"
     type: string
