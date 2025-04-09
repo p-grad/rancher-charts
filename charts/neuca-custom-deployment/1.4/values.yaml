@@ -78,7 +78,11 @@ ingress:
   #      - chart-example.local
 envEnabled: true
 env:
-  API_KEY: "api-key123asdfas"
+  HF_HUB_OFFLINE: "1"
+envFromSecretEnabled: true
+envFromSecret:
+  API_KEY: "bielik-secrets:api-key"
+  HUGGING_FACE_HUB_TOKEN: "bielik-secrets:token"
 resourcesEnabled: false
 resources: 
   cpu: "10"

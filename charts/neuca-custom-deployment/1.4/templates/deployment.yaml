@@ -32,11 +32,24 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if .Values.envEnabled }}
+          {{- if or (.Values.envEnabled) (.Values.envFromSecretEnabled) }}
           env:
+            {{- if .Values.envEnabled }}
             {{- range $key, $value := .Values.env }}
           - name: {{ $key }}
             value: "{{ $value }}"
+            {{- end }}
+            {{- end }}
+            {{- if .Values.envFromSecretEnabled }}
+            {{- range $name, $secretRef := .Values.envFromSecret }}
+            {{- $refStr := toString $secretRef }}
+            {{- $parts := split ":" $secretRef }}
+          - name: {{ $name }}
+            valeFrom:
+              secretKeyRef:
+                name: {{ index $parts._0 }}
+                key: {{ index $parts._1 }}
+            {{- end }}
             {{- end }}
           {{- end }}
           {{- with .Values.securityContext }}

@@ -92,6 +92,24 @@ questions:
       env1: "value of env1"
     type: "map"
     required: false
+- variable: envFromSecretEnabled
+  label: "Enable pod environment variables, created from secrets"
+  group: "Environment"
+  default: true
+  type: boolean
+  show_subquestion_if: true
+  subquestions:
+  - variable: envFromSecret
+    group: "Environment"
+    label: "Environment Variables"
+    description: |
+      "Give environmet variable definition in format: key=\"variable-name\", value=\"secret-name:secret-key\""
+      "The referenced secreats must exist before release creation"
+    default:
+      API_KEY: "bielik-secrets:api-key"
+      HUGGING_FACE_HUB_TOKEN: "bielik-secrets:token"
+    type: "map"
+    required: false
 - variable: resourcesEnabled
   label: "Enable pod resources decaration"
   group: "Resources"

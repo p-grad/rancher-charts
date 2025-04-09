@@ -8,4 +8,4 @@ data:
   {{- else }}
   startup.sh: |
     {{- .Values.customStartupScript | nindent 4 }}
-  {{_ end }}
+  {{- end }}
