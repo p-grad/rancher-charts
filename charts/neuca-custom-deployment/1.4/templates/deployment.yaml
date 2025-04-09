@@ -101,7 +101,7 @@ spec:
           {{- if or (.Values.global.ssh) (.Values.startupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) }}
           volumeMounts:
           {{- end }}
-          {{- if .Values.global.ssh }}
+          {{- if and .Values.global.ssh (not .Values.global.vllm) }}
           - name: ssh-keys
             mountPath: /root/.ssh/id_rsa
             subPath: id_rsa
@@ -127,7 +127,7 @@ spec:
       runtimeClassName: nvidia
       {{- end }}
       volumes:
-      {{- if .Values.global.ssh }}
+      {{- if and .Values.global.ssh (not .Values.global.vllm) }}
       - name: ssh-keys
         secret:
           secretName: {{ .Release.Name }}-ssh
@@ -144,7 +144,7 @@ spec:
         persistentVolumeClaim:
           claimName: {{ include "neuca-custom-deployment.fullname" . }}
       {{- end }}
-      {{- if .Values.additionalStorage.enbled }}
+      {{- if .Values.additionalStorage.enabled }}
       - name: add-storage
         persistentVolumeClaim:
           claimName: {{ .Values.additionalStorage.pvc }}
