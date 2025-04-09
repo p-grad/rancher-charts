@@ -43,14 +43,6 @@ questions:
     mkdir /var/run/sshd # bug in 22.04
     /usr/sbin/sshd -De
   required: true
-- variable: env
-  group: "Environment"
-  label: "Environment Variables"
-  description: "Environmen Variables"
-  default:
-    env1: "value of env1"
-  type: "map"
-  required: false
 - variable: resources
   group: "Resources"
   label: "Resources"
