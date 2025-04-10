@@ -114,7 +114,7 @@ spec:
             name: ssh-keys
             subPath: id_rsa.pub
           {{- end }}
-          {{- if or ( and (.Values.custumStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
+          {{- if or ( and (.Values.customStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
           - name: startup-script
             mountPath: /usr/bin/startup.sh
             subPath: startup.sh
