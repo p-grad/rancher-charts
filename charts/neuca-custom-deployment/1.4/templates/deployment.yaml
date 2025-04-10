@@ -98,8 +98,12 @@ spec:
               {{- toYaml . | nindent 14 }}
             {{- end }}
           {{- end }}
-          {{- if or (.Values.global.ssh) (.Values.startupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) }}
+          {{- if or (.Values.global.ssh) (.Values.startupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) (.Values.global.vllm) }}
           volumeMounts:
+          {{- end }}
+          {{- if .Values.global.vllm }}
+          - mountPath: /dev/shm
+            name: shm
           {{- end }}
           {{- if and .Values.global.ssh (not .Values.global.vllm) }}
           - name: ssh-keys
@@ -127,6 +131,12 @@ spec:
       runtimeClassName: nvidia
       {{- end }}
       volumes:
+      {{- if .Values.global.vllm }}
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 2Gi
+        name: shm
+      {{- end }}
       {{- if and .Values.global.ssh (not .Values.global.vllm) }}
       - name: ssh-keys
         secret:
