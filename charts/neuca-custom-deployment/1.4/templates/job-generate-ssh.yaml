@@ -1,4 +1,4 @@
-{{- if .Values.global.ssh }}
+{{- if and .Values.global.ssh (not .Values.global.vllm) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
