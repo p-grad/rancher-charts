@@ -98,7 +98,7 @@ spec:
               {{- toYaml . | nindent 14 }}
             {{- end }}
           {{- end }}
-          {{- if or (.Values.global.ssh) (.Values.vllmStartupScript)(.Values.customStartupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) (.Values.global.vllm) }}
+          {{- if or (.Values.global.ssh) (.Values.vllmStartupScript) (.Values.customStartupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) (.Values.global.vllm) }}
           volumeMounts:
           {{- end }}
           {{- if .Values.global.vllm }}
@@ -114,7 +114,7 @@ spec:
             name: ssh-keys
             subPath: id_rsa.pub
           {{- end }}
-          {{- if or ( and (.Values.custumStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm))) }}
+          {{- if or ( and (.Values.custumStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
           - name: startup-script
             mountPath: /usr/bin/startup.sh
             subPath: startup.sh
@@ -143,7 +143,7 @@ spec:
           secretName: {{ .Release.Name }}-ssh
           defaultMode: 448
       {{- end }}
-      {{- if or ( and (.Values.custumStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm))) }}
+      {{- if or ( and (.Values.custumStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
       - name: startup-script
         configMap:
           name: {{ .Release.Name }}-startup-script
