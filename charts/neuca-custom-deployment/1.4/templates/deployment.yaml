@@ -62,7 +62,7 @@ spec:
           image: {{ .Values.image.customImage }}
           {{- end}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.startupScript }}
+          {{- if or (.Values.customStartupScript) (.Values.vllmStartupScript) }}
           command:
           - /bin/sh
           - /usr/bin/startup.sh
