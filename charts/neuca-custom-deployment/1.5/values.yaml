@@ -1,0 +1,126 @@
+# Default values for neuca-custom-deployment
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+global:
+  vllm: true
+  ssh: 
+    enabled: true
+    kubectlImage: "aiprdkir.ai.neuca.pl/docker.io/bitnami/kubectl:latest"
+  shm:
+    enabled: false
+    size: "16Gi"
+  nodeSelectorEnabled: true
+  nodeSelector:
+    nvidia.com/gpu.present: "true"
+    nvidia.com/gpu.product: "NVIDIA-H100-NVL"
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  customImage: "aiprdkir.ai.neuca.pl/library/cuda:12-2-cudnn-8.9.7-v1"
+  vllmImage: "aiprdkir.ai.neuca.pl/docker.io/vllm/vllm-openai:latest"
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+
+# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: LoadBalancer
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  ports:
+    "22": "22"
+    "80": "80"
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: "nginx"
+  servicePort: 80
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  host: "my-service.ai.neuca.pl"
+  tls: true
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+envEnabled: true
+env:
+  HF_HUB_OFFLINE: "1"
+envFromSecretEnabled: true
+envFromSecret:
+  API_KEY: "bielik-secrets:api-key"
+  HUGGING_FACE_HUB_TOKEN: "bielik-secrets:token"
+resourcesEnabled: false
+resources: 
+  cpu: "10"
+  memory: "20G"
+  nvidia.com/gpu: "1"
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  #   gpu: 1
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  #   gpu: 1
+
+customStartupScript: |
+  mkdir -p /root/.ssh
+  chmod 700 /root/.ssh
+  mkdir /var/run/sshd # bug in 22.04
+  /usr/sbin/sshd -De
+vllmStartupScript: |
+  vllm serve speakleash/Bielik-11B-v2.3-Instruct --trust-remote-code --enable-chunked-prefill --max_num_batched_tokens 1024 --api-key $API_KEY
+
+tolerations: []
+storage:
+  enabled: true
+  size: 10Gi
+  className: ""  # Leave empty to use the default storage class
+  mountPath: /data
+  accessMode: ReadWriteMany
+additionalStorage:
+  enabled: false
+  storage:
+    shared-storage: "/root/.cache/huggingface"

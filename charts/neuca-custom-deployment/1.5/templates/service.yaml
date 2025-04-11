@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "neuca-custom-deployment.fullname" . }}
+  labels:
+    {{- include "neuca-custom-deployment.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  {{- range $key, $value := .Values.service.ports }}
+  - name: "port-{{ $key }}"
+    port: {{ $key }}
+    targetPort: {{ $value }}
+  {{- end }}
+  selector:
+    {{- include "neuca-custom-deployment.selectorLabels" . | nindent 4 }}

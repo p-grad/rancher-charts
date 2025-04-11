@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "neuca-custom-deployment.fullname" . }}
+  labels:
+    {{- include "neuca-custom-deployment.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "neuca-custom-deployment.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "neuca-custom-deployment.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "neuca-custom-deployment.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- if or (.Values.envEnabled) (.Values.envFromSecretEnabled) }}
+          env:
+            {{- if .Values.envEnabled }}
+            {{- range $key, $value := .Values.env }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+            {{- end }}
+            {{- end }}
+            {{- if .Values.envFromSecretEnabled }}
+            {{- range $name, $secretRef := .Values.envFromSecret }}
+            {{- $refStr := toString $secretRef }}
+            {{- $parts := split ":" $secretRef }}
+          - name: {{ $name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ index $parts._0 }}
+                key: {{ index $parts._1 }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.global.vllm }}
+          image: {{ .Values.image.vllmImage }}
+          {{- else }}
+          image: {{ .Values.image.customImage }}
+          {{- end}}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if or (.Values.customStartupScript) (.Values.vllmStartupScript) }}
+          command:
+          - /bin/sh
+          - /usr/bin/startup.sh
+          {{- end }}
+          {{- if .Values.global.vllm }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 5
+          {{- else }}
+          {{- if .Values.global.ssh.enabled }}
+          livenessProbe:
+            tcpSocket:
+              port: 22
+          readinessProbe:
+            tcpSocket:
+              port: 22
+          livenessProbe:
+          {{- end }}
+          {{- end }}
+          {{- if .Values.resourcesEnabled }}
+          resources:
+            limits: 
+            {{- with .Values.resources }}
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+          {{- end }}
+          {{- if or (.Values.global.ssh.enabled) (.Values.global.shm.enabled) (.Values.vllmStartupScript) (.Values.customStartupScript) (.Values.storage.enabled) (.Values.additionalStorage.enbled) (.Values.global.vllm) }}
+          volumeMounts:
+          {{- end }}
+          {{- if or (.Values.global.vllm) (.Values.global.shm.enabled) }}
+          - mountPath: /dev/shm
+            name: shm
+          {{- end }}
+          {{- if and .Values.global.ssh.enabled (not .Values.global.vllm) }}
+          - name: ssh-keys
+            mountPath: /root/.ssh/id_rsa
+            subPath: id_rsa
+            mountPropagation: HostToContainer
+          - mountPath: /root/.ssh/authorized_keys
+            name: ssh-keys
+            subPath: id_rsa.pub
+          {{- end }}
+          {{- if or ( and (.Values.customStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
+          - name: startup-script
+            mountPath: /usr/bin/startup.sh
+            subPath: startup.sh
+          {{- end }}
+          {{- if .Values.storage.enabled }}
+          - name: app-storage
+            mountPath: {{ .Values.storage.mountPath }}
+          {{- end }}
+          {{- if .Values.additionalStorage.enabled }}
+            {{- range $key, $value := .Values.additionalStorage.storage }}
+          - name: {{ $key }}
+            mountPath: {{ $value }}
+            {{- end }}
+          {{- end }}
+      {{- if or (eq (index .Values.global.nodeSelector "nvidia.com/gpu.present") "true") (index .Values.global.nodeSelector "nvidia.com/gpu.product") }}
+      runtimeClassName: nvidia
+      {{- end }}
+      volumes:
+      {{- if .Values.global.vllm }}
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 2Gi
+        name: shm
+      {{- else }}
+        {{- if .Values.global.shm.enabled }}
+      - emptyDir:
+          medium: Memory
+          sizeLimit: {{ .Values.global.shm.size }}
+        name: shm
+        {{- end }}
+      {{- end }}
+      {{- if and .Values.global.ssh.enabled (not .Values.global.vllm) }}
+      - name: ssh-keys
+        secret:
+          secretName: {{ .Release.Name }}-ssh
+          defaultMode: 448
+      {{- end }}
+      {{- if or ( and (.Values.customStartupScript) ( not .Values.global.vllm)) (and (.Values.vllmStartupScript) (.Values.global.vllm)) }}
+      - name: startup-script
+        configMap:
+          name: {{ .Release.Name }}-startup-script
+          defaultMode: 0777
+      {{- end }}
+      {{- if .Values.storage.enabled }}
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: {{ include "neuca-custom-deployment.fullname" . }}
+      {{- end }}
+      {{- if .Values.additionalStorage.enabled }}
+        {{- range $key, $value := .Values.additionalStorage.storage }}
+      - name: {{ $key }}
+        persistentVolumeClaim:
+          claimName: {{ $key }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.global.nodeSelectorEnabled }}
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
