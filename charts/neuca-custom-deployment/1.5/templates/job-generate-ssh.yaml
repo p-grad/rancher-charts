@@ -14,7 +14,7 @@ spec:
         runAsUser: 0  # Run as root user
       containers:
         - name: ssh-keygen
-          image: {{ .Values.global.kubectlImage }}
+          image: {{ .Values.global.ssh.kubectlImage }}
           command: ["/bin/sh", "-c"]
           args:
             - |
