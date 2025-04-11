@@ -135,7 +135,7 @@ questions:
   group: "Storage"
   show_subquestion_if: true
   subquestions:
-  - variable: storage.storageSize
+  - variable: storage.size
     label: "Storage Size"
     default: "10Gi"
     type: string
@@ -145,7 +145,7 @@ questions:
     label: "Mount Point"
     type: string
     required: true
-  - variable: storage.storageClassName
+  - variable: storage.className
     label: "Storage Class Name"
     default: ""
     type: string

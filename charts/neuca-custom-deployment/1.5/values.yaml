@@ -122,5 +122,6 @@ storage:
   accessMode: ReadWriteMany
 additionalStorage:
   enabled: false
-  storage:
-    shared-storage: "/root/.cache/huggingface"
+  # Give PVC name as key and mountpoint as value
+  storage: {}
+#    shared-storage: "/root/.cache/huggingface"

@@ -8,9 +8,9 @@ spec:
     - {{ .Values.storage.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.storage.storageSize }}
-  {{- if .Values.storage.storageClassName }}
-  storageClassName: {{ .Values.storage.storageClassName }}
+      storage: {{ .Values.storage.size }}
+  {{- if .Values.storage.className }}
+  storageClassName: {{ .Values.storage.className }}
   {{- end }}
 {{- end }}
 
